@@ -52,15 +52,15 @@ app.layout = html.Div([
     html.Div(className="row", children=[
         html.Div([
             dcc.Graph(id='Graph1'),
-            dcc.Interval(id="Update_Graph1", interval=200000)
+            dcc.Interval(id="Update_Graph1", interval=10000)
         ],className="four columns"),
         html.Div([
             dcc.Graph(id="Graph4"),
-            dcc.Interval(id="Update_Graph4", interval=200000)
+            dcc.Interval(id="Update_Graph4", interval=10000)
         ],className="four columns"),
         html.Div([
             dcc.Graph(id="Graph2"),
-            dcc.Interval(id="Update_Graph2", interval=100000)
+            dcc.Interval(id="Update_Graph2", interval=1000)
         ],className= "four columns") #, style={'float': 'right', 'width': '40%'})
     ]), #, style={'float': 'left', 'width': '40%'})
 
@@ -68,11 +68,11 @@ app.layout = html.Div([
     html.Div(className="row", children=[
         html.Div([
             dcc.Graph(id="Graph3"),
-            dcc.Interval(id="Update_Graph3", interval=12000)
+            dcc.Interval(id="Update_Graph3", interval=10000)
         ],className="six columns"),
         html.Div([
             dcc.Graph(id="Graph6"),
-            dcc.Interval(id="Update_Graph6", interval=14000)
+            dcc.Interval(id="Update_Graph6", interval=10000)
         ],className= "six columns")
     ]),
 
@@ -80,11 +80,11 @@ app.layout = html.Div([
     html.Div(className="row", children=[
         html.Div([
             dcc.Graph(id="Graph5"),
-            dcc.Interval(id="Update_Graph5", interval=16000)
+            dcc.Interval(id="Update_Graph5", interval=10000)
         ], className= "six columns"),
         html.Div([
             dcc.Graph(id="Graph7"),
-            dcc.Interval(id="Update_Graph7", interval=50000)
+            dcc.Interval(id="Update_Graph7", interval=10000)
         ], className= "six columns"),
     ]),
     html.Div(className="row", children=[
@@ -101,6 +101,9 @@ app.layout = html.Div([
         
     ]),
     html.Div(className = "row", children=[
+        html.Div([
+            html.Pre(id='click-data0')
+        ],className= "one columns"),
         html.Div([
             html.Pre(id='click-data1')
         ],className= "one columns"),
@@ -476,6 +479,15 @@ def cheat_click(clickData):
     else:
         return counter
 
+@app.callback(Output("click-data0", "children"),
+            [Input("show-secret", "n_clicks")])
+def token_click(clickData):
+    counter = 0
+    if clickData == None:
+        raise PreventUpdate
+    else:
+        return counter
+
 @app.callback(Output("user_results", "children"), [Input("show-secret", "n_clicks")])
 def secret_key(n_clicks):
     if n_clicks == None:
@@ -484,7 +496,7 @@ def secret_key(n_clicks):
         return "Scroll down to retrieve your token. Input the token into your Dashboard Account."
 
 @app.callback(Output("user_answer", "children"), [Input("show-forbidden", "n_clicks")])
-def secret_key(n_clicks):
+def cheat_key(n_clicks):
     if n_clicks == None:
         raise PreventUpdate
     else:
