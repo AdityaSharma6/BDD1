@@ -51,7 +51,7 @@ app.title = "Data Dashboard"
 click_counter = []
 app.layout = html.Div([
     html.Div(className="row", children=[
-        html.Button("Click here to show the correct answer of your analysis.", id="show-forbidden"),
+        html.Button("Decision based on previous experience.", id="show-forbidden"),
         html.Div(id="user_answer")
     ]),
     html.Div(className="row", children=[
