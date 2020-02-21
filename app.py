@@ -20,7 +20,12 @@ Graph7 = "social_media_comments.json"
 Graph8 = "social_media_comments_by_product_line.json"
 countries = "countries.json"
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
+styles = {
+    'pre': {
+        'border': 'thick blue solid',
+        'overflowX': 'scroll',
+    }
+}
 with open(countries, "r") as file:
     countries_data = json.load(file)
 with open (Graph1, "r") as file:
@@ -98,35 +103,34 @@ app.layout = html.Div([
     html.Div(className="row", children=[
         html.Button("Click here to conclude your analysis & generate your survey token.", id="show-secret"),
         html.Div(id="user_results")
-        
     ]),
-    html.Div(className = "row", children=[
+    html.Div(className = "row", id="user-results", style=styles["pre"], children=[
         html.Div([
-            html.Pre(id='click-data0')
+            html.Pre(id='click-data0', style={"margin": "2", "text-align": "center", "font-size": '25px'})
         ],className= "one columns"),
         html.Div([
-            html.Pre(id='click-data1')
+            html.Pre(id='click-data1', style={"margin": "2", "text-align": "center", "font-size": '25px'})
         ],className= "one columns"),
         html.Div([
-            html.Pre(id="click-data2")
+            html.Pre(id="click-data2", style={"margin": "2", "text-align": "center", "font-size": '25px'})
         ],className= "one columns"),
         html.Div([
-            html.Pre(id="click-data3")
+            html.Pre(id="click-data3", style={"margin": "2", "text-align": "center", "font-size": '25px'})
         ],className= "one columns"),
         html.Div([
-            html.Pre(id="click-data4")
+            html.Pre(id="click-data4", style={"margin": "2", "text-align": "center", "font-size": '25px'})
         ],className= "one columns"),
         html.Div([
-            html.Pre(id="click-data5")
+            html.Pre(id="click-data5", style={"margin": "2", "text-align": "center", "font-size": '25px'})
         ],className= "one columns"),
         html.Div([
-            html.Pre(id="click-data6")
+            html.Pre(id="click-data6", style={"margin": "2", "text-align": "center", "font-size": '25px'})
         ],className= "one columns"),
         html.Div([
-            html.Pre(id="click-data7")
+            html.Pre(id="click-data7", style={"margin": "2", "text-align": "center", "font-size": '25px'})
         ],className= "one columns"),
         html.Div([
-            html.Pre(id="cheat-data")
+            html.Pre(id="cheat-data", style={"margin": "2", "text-align": "center", "font-size": '25px'})
         ],className= "one columns")
     ])
 ])
@@ -493,131 +497,15 @@ def secret_key(n_clicks):
     if n_clicks == None:
         raise PreventUpdate
     else:
-        return "Scroll down to retrieve your token. Input the token into your Dashboard Account."
+        return "Scroll down to retrieve your token. Your token is the series of numbers within the blue box. Please return to Qualtrics and follow the remaining instructions."
 
 @app.callback(Output("user_answer", "children"), [Input("show-forbidden", "n_clicks")])
 def cheat_key(n_clicks):
     if n_clicks == None:
         raise PreventUpdate
     else:
-        return "Jeans USA"
+        return "Retail Shorts USA"
 
 
 if __name__ == "__main__":
     app.run_server(debug=True)
-
-'''
-@app.callback(Output("Graph7", "figure"), [Input("Update_Graph7", "n_intervals")])
-def update_graph7(input_data):
-    #words = ['征信', '拍拍贷', '查询', '报告', '贷款', '个人', '怎么', '信用卡', '逾期', '被拒', '如何', '中心', '信用', '网贷', '人人', '分期', '注册', '好信', '手机', '钱包', '个人信用', '借呗', '平安', '捷信', '微粒贷', '借钱', '记录', '用钱', '可以', '花呗', '身份证', '拍拍', '现金', '微信', '还款', '问问', '产品', '51', '信而富', '什么', '黑名单', '360', '17', '黑户', '怎么办', '金融', '帮你贷', '消除', '密码', '账号', '怎样', '分期乐', '拒绝', '申请']
-    words = list(Graph7_Data.keys())
-    frequency = list(Graph7_Data.values())
-
-    #frequency = [1083, 393, 353, 167, 123, 119, 83, 64, 57, 46, 44, 40, 37, 31, 29, 29, 28, 26, 25, 23, 23, 22, 21, 19, 18, 18, 18, 18, 18, 17, 15, 15, 15, 15, 14, 14, 13, 13, 13, 13, 13, 13, 12, 12, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10]
-
-    lower, upper = 15, 70
-    frequency = [((x - min(frequency)) / (max(frequency) - min(frequency))) * (upper - lower) + lower for x in frequency]
-
-
-    percent = list(Graph7_Data.values()) #[0.362086258776329, 0.13139418254764293, 0.11802072885322636, 0.055834169174189235, 0.041123370110330994, 0.03978602474088933, 0.02774991641591441, 0.02139752591106653, 0.01905717151454363, 0.015379471748579069, 0.01471079906385824, 0.013373453694416584, 0.012370444667335341, 0.010364426613172852, 0.009695753928452023, 0.009695753928452023, 0.009361417586091608, 0.008692744901370779, 0.008358408559010365, 0.0076897358742895345, 0.0076897358742895345, 0.00735539953192912, 0.007021063189568706, 0.006352390504847877, 0.006018054162487462, 0.006018054162487462, 0.006018054162487462, 0.006018054162487462, 0.006018054162487462, 0.0056837178201270475, 0.005015045135406218, 0.005015045135406218, 0.005015045135406218, 0.005015045135406218, 0.004680708793045804, 0.004680708793045804, 0.0043463724506853894, 0.0043463724506853894, 0.0043463724506853894, 0.0043463724506853894, 0.0043463724506853894, 0.0043463724506853894, 0.004012036108324975, 0.004012036108324975, 0.00367769976596456, 0.00367769976596456, 0.00367769976596456, 0.00367769976596456, 0.003343363423604146, 0.003343363423604146, 0.003343363423604146, 0.003343363423604146, 0.003343363423604146, 0.003343363423604146]
-
-    lenth = len(words)
-    colors = [py.colors.DEFAULT_PLOTLY_COLORS[random.randrange(1, 10)] for i in range(lenth)]
-
-    data = go.Scatter(
-        x=list(range(lenth)),
-        y=random.choices(range(lenth), k=lenth),
-        mode='text',
-        text=words,
-        #hovertext=['{0}{1}{2}'.format(w, f, format(p, '.2%')) for w, f, p in zip(words, frequency, percent)],
-        #hoverinfo='text',
-        textfont={'size': frequency, 'color': colors})
-    
-    layout = {
-        "xaxis": {"showgrid": False, 'showticklabels': False, 'zeroline': False},
-        "yaxis": {'showgrid': False, 'showticklabels': False, 'zeroline': False}
-    }
-
-    return {"data": [data], "layout": layout}
-'''
-
-'''
-@app.callback(Output("Graph7", "figure"), [Input("Update_Graph7", "n_intervals")])
-def update_graph7(input_data):
-    wc = WordCloud(stopwords = set(STOPWORDS),
-                   max_words = 200,
-                   max_font_size = 100)
-    wc.generate_from_frequencies(Graph7_Data)
-    
-    word_list=[]
-    freq_list=[]
-    fontsize_list=[]
-    position_list=[]
-    orientation_list=[]
-    color_list=[]
-
-    for (word, freq), fontsize, position, orientation, color in wc.layout_:
-        word_list.append(word)
-        freq_list.append(freq)
-        fontsize_list.append(fontsize)
-        position_list.append(position)
-        orientation_list.append(orientation)
-        color_list.append(color)
-        
-    # get the positions
-    x=[]
-    y=[]
-    for i in position_list:
-        x.append(i[0])
-        y.append(i[1])
-            
-    # get the relative occurence frequencies
-    new_freq_list = []
-    for i in freq_list:
-        new_freq_list.append(i*100)
-    new_freq_list
-    
-    trace = go.Scatter(x=x, 
-                       y=y, 
-                       textfont = dict(size=new_freq_list,
-                                       color=color_list),
-                       hoverinfo='text',
-                       hovertext=['{0}{1}'.format(w, f) for w, f in zip(word_list, freq_list)],
-                       mode='text',  
-                       text=word_list
-                      )
-    
-    layout = {
-            'xaxis': {'showgrid': False, 'showticklabels': False, 'zeroline': False},
-            'yaxis': {'showgrid': False, 'showticklabels': False, 'zeroline': False}
-        }
-    
-    fig = go.Figure(data=[trace], layout=layout)
-    
-    return fig
-'''
-
-'''
-@app.callback(Output("Graph8", "figure"), [Input("Update_Graph8", "n_intervals")])
-def update_graph8(input_data):
-    levels = ["Comments", "Product Line"]
-    parents = list(Graph8_Data.keys())
-    labels = list(Graph8_Data.get("Dresses").keys())
-    final_values = [] 
-    final_labels = []
-    for i in range(len(parents)):
-        final_labels.append(parents[i])
-        for j in range(len(labels)):
-            final_labels.append(labels[i])
-            final_values.extend(list(list(Graph8_Data.values())[i].values()))
-
-    
-    data = go.Sunburst(
-        labels=["Nirmal", "Archana", "Aditya", "Poonam", "Noor", "Tulsi"],
-        parents=["Nirmal", "Archana"],
-        values=[52, 50, 19, 15, 13, 6],
-        branchvalues="total"
-    )
-
-    return {"data": [data]}
-'''
