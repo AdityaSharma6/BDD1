@@ -22,7 +22,7 @@ countries = "countries.json"
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 styles = {
     'pre': {
-        'border': 'thick blue solid',
+        'border': 'thick grey solid',
         'overflowX': 'scroll',
     }
 }
