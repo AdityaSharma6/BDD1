@@ -497,7 +497,7 @@ def secret_key(n_clicks):
     if n_clicks == None:
         raise PreventUpdate
     else:
-        return "Scroll down to retrieve your token. Your token is the series of numbers within the blue box. Please return to Qualtrics and follow the remaining instructions."
+        return "Scroll down to retrieve your token. Your token is the series of numbers within the grey box. Please return to Qualtrics and follow the remaining instructions."
 
 @app.callback(Output("user_answer", "children"), [Input("show-forbidden", "n_clicks")])
 def cheat_key(n_clicks):
