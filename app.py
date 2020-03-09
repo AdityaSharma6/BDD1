@@ -106,32 +106,8 @@ app.layout = html.Div([
     ]),
     html.Div(className = "row", id="user-results", style=styles["pre"], children=[
         html.Div([
-            html.Pre(id='click-data0', style={"margin": "2", "text-align": "center", "font-size": '25px'})
-        ],className= "one columns"),
-        html.Div([
-            html.Pre(id='click-data1', style={"margin": "2", "text-align": "center", "font-size": '25px'})
-        ],className= "one columns"),
-        html.Div([
-            html.Pre(id="click-data2", style={"margin": "2", "text-align": "center", "font-size": '25px'})
-        ],className= "one columns"),
-        html.Div([
-            html.Pre(id="click-data3", style={"margin": "2", "text-align": "center", "font-size": '25px'})
-        ],className= "one columns"),
-        html.Div([
-            html.Pre(id="click-data4", style={"margin": "2", "text-align": "center", "font-size": '25px'})
-        ],className= "one columns"),
-        html.Div([
-            html.Pre(id="click-data5", style={"margin": "2", "text-align": "center", "font-size": '25px'})
-        ],className= "one columns"),
-        html.Div([
-            html.Pre(id="click-data6", style={"margin": "2", "text-align": "center", "font-size": '25px'})
-        ],className= "one columns"),
-        html.Div([
-            html.Pre(id="click-data7", style={"margin": "2", "text-align": "center", "font-size": '25px'})
-        ],className= "one columns"),
-        html.Div([
-            html.Pre(id="cheat-data", style={"margin": "2", "text-align": "center", "font-size": '25px'})
-        ],className= "one columns")
+            html.Pre(id="tokens", style={"margin": "2", "text-align": "center", "font-size": '25px'})
+        ],className="one columns")
     ])
 ])
 
@@ -411,6 +387,28 @@ def update_graph7(input_data):
 
     return {"data": [data], "layout": layout}
 
+
+@app.callback(
+    Output("tokens", "children"),
+    [Input("show-secret", "n_clicks"),
+    Input("Graph1", "clickData"),
+    Input("Graph2", "clickData"),
+    Input("Graph3", "clickData"),
+    Input("Graph4", "clickData"),
+    Input("Graph5", "clickData"),
+    Input("Graph6", "clickData"),
+    Input("Graph7", "clickData"),
+    Input("show-forbidden", "n_clicks")
+    ]
+)
+def tokens(a,b,c,d,e,f,g,h,j):
+    answer = [a,b,c,d,e,f,g,h,j]
+    summation = [i+1 for i in range(len(answer)) if answer[i] != None]
+    token = 0
+    for i in summation:
+        token = token*10 + i
+    return str(token)
+'''
 @app.callback(Output("click-data1", "children"),
             [Input("Graph1", "clickData")])
 def click1(clickData):
@@ -491,6 +489,7 @@ def token_click(clickData):
         raise PreventUpdate
     else:
         return counter
+'''
 
 @app.callback(Output("user_results", "children"), [Input("show-secret", "n_clicks")])
 def secret_key(n_clicks):
