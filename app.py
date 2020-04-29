@@ -558,7 +558,7 @@ card7 = dbc.Card(
             [
                 html.H2("Product Line Sentiment", className = "card-title"),
                 html.P("Descriptive Text", className = "card-text"),
-                dbc.Button("View Graph", color = "primary", size = "lg", id="open-modal7"),
+                dbc.Button("View Graph", color = "primary", size = "md", id="open-modal7"),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -631,7 +631,7 @@ card8 = dbc.Card(
             [
                 html.H2("Consumer Comments per Product Type", className="card-title"),
                 html.P("Descriptive Text", className="card-text"),
-                dbc.Button("View Graph", id="open-modal8", color="primary", size="lg"),
+                dbc.Button("View Graph", id="open-modal8", color="primary", size="md"),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -661,6 +661,7 @@ def toggle_modal(n1, n2, is_open):
     return is_open
 
 ################################################################################################################################################################
+'''
 card9 = dbc.Card(
     [
         dbc.CardImg(src="assets/WordCloud5.png", top=True),
@@ -676,7 +677,7 @@ card9 = dbc.Card(
                         dbc.ModalFooter(dbc.Button("Close", color = "primary", size="md", id="close-modal9")),
                     ],
                     id = "modal9",
-                    size="lg",
+                    size="md",
                     centered=True
                 )
             ]
@@ -689,7 +690,7 @@ def toggle_modal(n1, n2, is_open):
     if n1 or n2:
         return not is_open
     return is_open
-
+'''
 
 
 ################################################################################################################################################################
