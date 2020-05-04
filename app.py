@@ -160,6 +160,7 @@ card1 = dbc.Card(
         (
             [
                 html.Br(),
+                html.Br(),
                 html.H2("Total Revenue and Product Cost per Country", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal1", disabled=True),
                 dbc.Modal
@@ -337,6 +338,7 @@ card3 = dbc.Card(
         dbc.CardImg(src="/assets/pie.png", top=True),
         dbc.CardBody(
             [
+                html.Br(),
                 html.H2("Total Revenue per Product Line", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal2", disabled=True),
                 dbc.Modal(
