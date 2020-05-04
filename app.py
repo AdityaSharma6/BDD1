@@ -60,21 +60,56 @@ styles = {
     }
 }
 ################################################################################################################################################################
-cheating_button = [
-    dbc.Button("Click to view decision based on previous experience", id="open-cheating-modal", size="lg", color="primary"),
-        dbc.Modal(
-            [
-                dbc.ModalHeader("Decision"),
-                dbc.ModalBody(
-                    html.H3("Retail Shorts USA")
-                ),
-                dbc.ModalFooter(dbc.Button("Close", id="close-cheating-modal"))
-            ],
-            id="cheating-modal",
-            size="lg",
-            centered=True
-        )
-]
+cheating_button = html.Div(
+    dbc.Row(
+        [
+            dbc.Col(
+                [
+                    dbc.Button("Click to view decision based on previous experience", id="open-cheating-modal", size="lg", color="primary", block=True, disabled=True),
+                    dbc.Modal(
+                        [
+                            dbc.ModalHeader("Decision"),
+                            dbc.ModalBody(
+                                html.H3("Retail Shorts USA")
+                            ),
+                            dbc.ModalFooter(dbc.Button("Close", id="close-cheating-modal"))
+                        ],
+                        id="cheating-modal",
+                        size="lg",
+                        centered=True
+                    )
+                ]
+            ),
+            dbc.Col(
+                dbc.Button("Click to start your analysis", id="start-analysis-button", size="lg", block=True, color="success", disabled=False),
+                width=8
+            ),
+        ]
+    )
+)
+
+@app.callback(
+    [Output("open-cheating-modal", "disabled"),
+    Output("open-modal1", "disabled"),
+    Output("open-modal2", "disabled"),
+    Output("open-modal3", "disabled"),
+    #Output("open-modal4", "disabled"),
+    #Output("open-modal5", "disabled"),
+    Output("open-modal6", "disabled"),
+    Output("open-modal7", "disabled"),
+    Output("open-modal8", "disabled"),
+    Output('completed-analysis-modal-button', "disabled"),
+    Output('start-analysis-button', "disabled")],
+    [Input("start-analysis-button", "n_clicks"),
+    Input("completed-analysis-modal-button", "n_clicks")]
+)
+def activate_buttons(start_click, end_click):
+    if start_click == None and end_click == None:
+        return [True, True, True, True, True, True, True, True, False]
+    elif start_click != None and end_click == None:
+        return [False, False, False, False, False, False, False, False, True]
+    else:
+        return [True]*9
 
 @app.callback(Output("completed-analysis-modal", "is_open"), [Input("completed-analysis-modal-button", "n_clicks"), Input("close-completed-analysis-modal", "n_clicks")], [State("completed-analysis-modal", "is_open")])
 def toggle_modal(n1, n2, is_open):
@@ -91,35 +126,32 @@ def toggle_modal(n1, n2, is_open):
 @app.callback(
     Output("token", "children"),
     [
-        Input("completed-analysis-modal-button", "n_clicks"), #1
-        Input("open-cheating-modal", "n_clicks"), #2
-        Input("open-modal1", "n_clicks"), #3
-        Input("open-modal2", "n_clicks"), #4
-        Input("open-modal3", "n_clicks"), #5
-        #Input("open-modal4", "n_clicks"), #6
-        #Input("open-modal5", "n_clicks"), #7
-        Input("open-modal6", "n_clicks"), #8
-        Input("open-modal7", "n_clicks"), #9
-        Input("open-modal8", "n_clicks") #10
+        Input("completed-analysis-modal-button", "n_clicks"),
+        Input("open-cheating-modal", "n_clicks"),
+        Input("open-modal1", "n_clicks_timestamp"),
+        Input("open-modal2", "n_clicks"),
+        Input("open-modal3", "n_clicks"),
+        #Input("open-modal4", "n_clicks"),
+        #Input("open-modal5", "n_clicks"),
+        Input("open-modal6", "n_clicks"),
+        Input("open-modal7", "n_clicks"),
+        Input("open-modal8", "n_clicks"),
+        Input("completed-analysis-modal-button", "n_clicks_timestamp"),
+        Input("start-analysis-button", "n_clicks_timestamp"),
     ]
 )
-def tokens(a,b,c,d,e,f,g,h):
+def tokens(a,b,c,d,e,f,g,h,i,j):
     answer = [a,b,c,d,e,f,g,h]
-    summation = [i+1 for i in range(len(answer)) if answer[i] != None]
+    summation = [x+1 for x in range(len(answer)) if answer[x] != None]
     token = 0
-
-    for i in summation:
-        token = token*10 + i
-    dictionary = {
-        "clicked_count": 15,
-        "clicked_time": [12,14,15,16],
-    }
-
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    #print(a,b,current_time)
-
-    return (str(token))
+    for x in summation:
+        token = token*10 + x
+    
+    if i != None and j != None:
+        difference = i - j
+        return str(token) + "a" + str(difference//1000) + "a"
+    else:
+        return str(token)
 ################################################################################################################################################################
 card1 = dbc.Card(
     [
@@ -129,7 +161,7 @@ card1 = dbc.Card(
             [
                 html.Br(),
                 html.H2("Total Revenue and Product Cost per Country", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal1"),
+                dbc.Button("View Graph", color="primary", id="open-modal1", disabled=True),
                 dbc.Modal
                 (
                     [
@@ -306,7 +338,7 @@ card3 = dbc.Card(
         dbc.CardBody(
             [
                 html.H2("Total Revenue per Product Line", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal2"),
+                dbc.Button("View Graph", color="primary", id="open-modal2", disabled=True),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -355,6 +387,7 @@ def update_graph2(input_data):
 
 card4 = dbc.Card(
     [
+        html.Br(),
         dbc.CardImg(src="/assets/multiHBar.png", top=True),
         dbc.CardBody(
             [
@@ -363,8 +396,12 @@ card4 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.Br(),
+                html.Br(),
+                html.Br(),
+                html.Br(),
+                html.Br(),
                 html.H2("Total Product Cost per Channel", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal6"),
+                dbc.Button("View Graph", color="primary", id="open-modal6", disabled=True),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -444,6 +481,7 @@ def update_graph6(input_data):
 
 card5 = dbc.Card(
     [
+        html.Br(),
         dbc.CardImg(src="/assets/vBar.png", top=True),
         dbc.CardBody(
             [
@@ -453,7 +491,7 @@ card5 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.H2("Total Profit per Product Line", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal3"),
+                dbc.Button("View Graph", color="primary", id="open-modal3", disabled=True),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -534,7 +572,7 @@ card6 = dbc.Card(
         dbc.CardBody(
             [
                 html.H2("Total Product Cost per Product Line", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal5"),
+                dbc.Button("View Graph", color="primary", id="open-modal5", disabled=True),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -590,7 +628,7 @@ card7 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.H2("Product Line Sentiment", className = "card-title"),
-                dbc.Button("View Graph", color = "primary", size = "md", id="open-modal7"),
+                dbc.Button("View Graph", color = "primary", size = "md", id="open-modal7", disabled=True),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -658,11 +696,15 @@ def update_graph7(input_data):
 ################################################################################################################################################################
 card8 = dbc.Card(
     [
+        html.Br(),
         dbc.CardImg(src="assets/WordCloud3.png", top=True),
         dbc.CardBody(
             [
+                html.Br(),
+                html.Br(),
+                html.Br(),
                 html.H2("Consumer Comments per Product Type", className="card-title"),
-                dbc.Button("View Graph", id="open-modal8", color="primary", size="md"),
+                dbc.Button("View Graph", id="open-modal8", color="primary", size="md", disabled=True),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -730,15 +772,16 @@ complete_button = html.Div(
         [
             dbc.Col(
                 [
-                    dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="success", block=True),
+                    dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="success", block=True, disabled=True),
                     dbc.Modal(
                         [
-                            dbc.ModalHeader("Survey Completed Message"), 
+                            dbc.ModalHeader(children=[html.H3("Your token is located below.")]), 
                             dbc.ModalBody(children=
                                 [ 
-                                    "Congragulations, you have completed your analysis. Your token is located below.",
+                                    html.H4("DO NOT close the tab until you have copied your token and inserted it into the Qualtrics Survey"),
+                                    html.Br(),
                                     html.Hr(), 
-                                    html.H3(id="token", className="alert-link")
+                                    html.H2(id="token", className="alert-link")
                                 ]
                             ),
                             dbc.ModalFooter(
