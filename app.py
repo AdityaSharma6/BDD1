@@ -701,6 +701,7 @@ card8 = dbc.Card(
         dbc.CardBody(
             [
                 html.Br(),
+                html.Br(),
                 html.H2("Consumer Comments per Product Type", className="card-title"),
                 dbc.Button("View Graph", id="open-modal8", color="primary", size="md", disabled=True),
                 dbc.Modal(
