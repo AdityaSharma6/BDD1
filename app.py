@@ -490,6 +490,7 @@ card5 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.Br(),
+                html.Br(),
                 html.H2("Total Profit per Product Line", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal3", disabled=True),
                 dbc.Modal(
