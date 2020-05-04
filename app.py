@@ -397,9 +397,6 @@ card4 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.Br(),
-                html.Br(),
-                html.Br(),
-                html.Br(),
                 html.H2("Total Product Cost per Channel", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal6", disabled=True),
                 dbc.Modal(
@@ -701,8 +698,6 @@ card8 = dbc.Card(
         dbc.CardImg(src="assets/WordCloud3.png", top=True),
         dbc.CardBody(
             [
-                html.Br(),
-                html.Br(),
                 html.Br(),
                 html.H2("Consumer Comments per Product Type", className="card-title"),
                 dbc.Button("View Graph", id="open-modal8", color="primary", size="md", disabled=True),
