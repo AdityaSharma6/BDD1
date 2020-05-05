@@ -56,16 +56,30 @@ app.title = "Data Dashboard"
 styles = {
     'pre': {
         'border': 'thick grey solid',
-        'overflowX': 'scroll',
+        'overflow': 'scroll',
     }
 }
 ################################################################################################################################################################
-cheating_button = html.Div(
+cheating_button = html.Div([
     dbc.Row(
         [
             dbc.Col(
                 [
-                    dbc.Button("Click to view decision based on previous experience", id="open-cheating-modal", size="lg", color="primary", block=True, disabled=True),
+                    html.Br(),
+                    html.Br(),
+                    dbc.Button("Click to start your analysis", id="start-analysis-button", size="lg", color="success", disabled=False),
+                    html.Br(),
+                    html.Br()
+                ], width={"size": 10}
+            )
+        ], justify="center"
+    ),
+    dbc.Row(
+        [
+            dbc.Col(
+                [
+                    dbc.Button("Click to view decision based on previous experience", id="open-cheating-modal", size="lg", color="primary", disabled=True),
+                    html.Br(),
                     dbc.Modal(
                         [
                             dbc.ModalHeader("Decision"),
@@ -78,15 +92,22 @@ cheating_button = html.Div(
                         size="lg",
                         centered=True
                     )
-                ]
+                ], width={"size": 11}
             ),
+        ], justify="center"
+    ),
+    dbc.Row(
+        [
             dbc.Col(
-                dbc.Button("Click to start your analysis", id="start-analysis-button", size="lg", block=True, color="success", disabled=False),
-                width=8
-            ),
+                [
+                    html.Br(),
+                    html.Br()
+                ]
+            )
         ]
     )
-)
+])
+
 
 @app.callback(
     [Output("open-cheating-modal", "disabled"),
@@ -153,6 +174,8 @@ def tokens(a,b,c,d,e,f,g,h,i,j):
     else:
         return str(token)
 ################################################################################################################################################################
+
+################################################################################################################################################################
 card1 = dbc.Card(
     [
         dbc.CardImg(src="/assets/revenue.png", top=True),
@@ -162,36 +185,31 @@ card1 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.H2("Total Revenue and Product Cost per Country", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal1", disabled=True),
+                dbc.Button("View Graph", color="primary", id="open-modal1", disabled=False),
                 dbc.Modal
                 (
                     [
                         dbc.ModalHeader("Header"),
                         dbc.ModalBody(
-                            children=[
-                                dbc.Row(dbc.Col(
-                                        children=[
-                                            dcc.Dropdown(
-                                                id="modal1-dropdown",
-                                                options=[
-                                                    {"label": "Revenue per Country", "value":"Revenue"},
-                                                    {"label": "Product Cost per Country", "value":"Product Cost"},
-                                                ],
-                                                value="Revenue"
-                                            )
-                                        ]
-                                    )),
-                                    dbc.Row(
-                                        children=[
-                                            dbc.Col(
-                                                id="graph1-geo1", 
-                                                children=[
-                                                    dcc.Graph(id='graph1'), 
-                                                    dcc.Interval(id="update-graph1", interval=1000)
-                                                ]
-                                            )
-                                        ]
-                                    )
+                            children=[    
+                                dbc.Row(
+                                    children=[
+                                        dbc.Col(
+                                            id="graph1-geo1", 
+                                            children=[
+                                                dcc.Graph(id='graph1'), 
+                                                dcc.Interval(id="update-graph1", interval=10000)
+                                            ]
+                                        ),
+                                        dbc.Col(
+                                            id="graph4-geo2",
+                                            children=[
+                                                dcc.Graph(id='graph4'), 
+                                                dcc.Interval(id="update-graph4", interval=10000)
+                                            ]
+                                        )
+                                    ]
+                                )
                             ]
                         ),
                         dbc.ModalFooter(dbc.Button("Close", color="primary", id="close-modal1", className="ml-auto"))
@@ -205,26 +223,23 @@ card1 = dbc.Card(
     ]
 )
 
-@app.callback(Output('graph1', 'figure'), [Input('update-graph1', 'n_intervals'), Input("modal1-dropdown", "value")])
-def update_graph1(input_data, dropdown_value):
-    if dropdown_value == "Revenue":
-        data_values = Graph1_Data.get("Revenue Values")
-    else:
-        data_values = Graph4_Data.get("Product Cost Values")
+@app.callback(Output('graph1', 'figure'), [Input('update-graph1', 'n_intervals')])
+def update_graph1(input_data):
+    data_values = Graph1_Data.get("Revenue Values")
 
     for i in range(len(data_values)):
         random_num = random.uniform(0.8, 1.2)
         data_values[i] = random_num * data_values[i]
 
     data = go.Scattergeo(
-        name=dropdown_value,
+        name="Revenue",
         showlegend=True,
         mode="markers",
         lat= Graph1_Data.get("Latitude"),
         lon= Graph1_Data.get("Longitude"),
         text= data_values,
         hovertext= Graph1_Data.get("Countries"),
-        hovertemplate= f"{dropdown_value}" + ': $%{text: .0f}<br>Country: %{hovertext}',
+        hovertemplate= "Revenue: $%{text: .0f}<br>Country: %{hovertext}",
         marker= dict(
             opacity=1,
             size= data_values,
@@ -242,11 +257,11 @@ def update_graph1(input_data, dropdown_value):
         "geo": {
             "scope": "world", 
             "showframe": True, 
-            "projection": {"type": "hide"},  #miller, orthographic, hide
+            "projection": {"type": "orthographic"},  #miller, orthographic, hide
             "showcountries": False, 
             "showcoastlines": True
         },
-        "title": "Sum of " + dropdown_value + " per Country (USD)",
+        "title": "Sum of Revenue per Country (USD)",
         "hovermode": "closest",
         "margin": {'l': 80, 'r': 0, 'b': 0, 't': 50},
         "clickmode": "event+select"
@@ -264,28 +279,7 @@ def toggle_modal(n1, n2, is_open):
         return not is_open
     return is_open
 ################################################################################################################################################################
-'''
-card2 = dbc.Card(
-    [
-        dbc.CardImg(src="/assets/productCost.png", top=True),
-        dbc.CardBody(
-            [
-                html.H2("Total Product per Country", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal4"),
-                dbc.Modal(
-                    [
-                        dbc.ModalHeader("Header"),
-                        dbc.ModalBody(dbc.Row(dbc.Col(id="graph4-geo2", children=[dcc.Graph(id="graph4"), dcc.Interval(id="update-graph4", interval=1000)]))),
-                        dbc.ModalFooter(dbc.Button("Close", color="primary", size="md", id="close-modal4"))
-                    ],
-                    id="modal4",
-                    size="xl",
-                    centered=True
-                )
-            ]
-        ),
-    ]
-)
+
 
 @app.callback( Output("modal4", "is_open"), [Input("open-modal4", "n_clicks"), Input("close-modal4", "n_clicks")], [State("modal4", "is_open")])
 def toggle_modal(n1, n2, is_open):
@@ -321,7 +315,7 @@ def update_graph4(input_data):
         "geo": {
             "scope": "world", 
             "showframe": True, 
-            "projection": {"type": "hide"},  #miller, orthographic, hide
+            "projection": {"type": "orthographic"},  #miller, orthographic, hide
             "showcountries": False, 
             "showcoastlines": True
         }, 
@@ -331,7 +325,6 @@ def update_graph4(input_data):
         "clickmode": "event+select"
     }
     return {"data": [data], "layout": layout}
-'''
 ################################################################################################################################################################
 card3 = dbc.Card(
     [
@@ -393,6 +386,7 @@ card4 = dbc.Card(
         dbc.CardImg(src="/assets/multiHBar.png", top=True),
         dbc.CardBody(
             [
+                html.Br(),
                 html.Br(),
                 html.Br(),
                 html.Br(),
@@ -484,9 +478,6 @@ card5 = dbc.Card(
         dbc.CardImg(src="/assets/vBar.png", top=True),
         dbc.CardBody(
             [
-                html.Br(),
-                html.Br(),
-                html.Br(),
                 html.Br(),
                 html.Br(),
                 html.Br(),
@@ -627,6 +618,7 @@ card7 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.Br(),
+                html.Br(),
                 html.H2("Product Line Sentiment", className = "card-title"),
                 dbc.Button("View Graph", color = "primary", size = "md", id="open-modal7", disabled=True),
                 dbc.Modal(
@@ -701,7 +693,6 @@ card8 = dbc.Card(
         dbc.CardBody(
             [
                 html.Br(),
-                html.Br(),
                 html.H2("Consumer Comments per Product Type", className="card-title"),
                 dbc.Button("View Graph", id="open-modal8", color="primary", size="md", disabled=True),
                 dbc.Modal(
@@ -771,7 +762,7 @@ complete_button = html.Div(
         [
             dbc.Col(
                 [
-                    dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="success", block=True, disabled=True),
+                    dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="success", disabled=True),
                     dbc.Modal(
                         [
                             dbc.ModalHeader(children=[html.H3("Your token is located below.")]), 
@@ -791,16 +782,18 @@ complete_button = html.Div(
                         size="lg", 
                         centered=True
                     )
-                ]
+                ], width={"size": 11}
             )
-        ]
+        ], justify="center"
     )
 )
 row0 = dbc.Row(children=[dbc.Col(children=cheating_button, align="center")])
-row1 = dbc.Row([dbc.Col(id="card1", children=[card1], width=4), dbc.Col(id="card3", children=[card3], md=4), dbc.Col(id="card7", children=[card7], md=4)])
-row2 = dbc.Row([dbc.Col(id="card4", children=[card4], md=4), dbc.Col(id="card5", children=[card5], md=4), dbc.Col(id="card8", children=[card8], md=4)]) #dbc.Col(id="card6", children=[card6], md=4)
+#row1 = dbc.Row([dbc.Col(id="card1", children=[card1], width=4), dbc.Col(id="card3", children=[card3], md=4), dbc.Col(id="card7", children=[card7], md=4)])
+#row2 = dbc.Row([dbc.Col(id="card4", children=[card4], md=4), dbc.Col(id="card5", children=[card5], md=4), dbc.Col(id="card8", children=[card8], md=4)]) #dbc.Col(id="card6", children=[card6], md=4)
+row1 = dbc.CardGroup([card1, card3, card7])
+row2 = dbc.CardGroup([card4, card5, card8])
 row3 = dbc.Row([dbc.Col(id="end", children=complete_button, align="center")])
-app.layout = html.Div([row0, row1, row2, row3])
+app.layout = html.Div([row0, row1, html.Br(), html.Br(), row2, html.Br(), html.Br(), row3])
 
 if __name__ == "__main__":
     app.run_server(debug=True)
