@@ -761,7 +761,9 @@ complete_button = html.Div(
         [
             dbc.Col(
                 [
-                    dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="success", disabled=True),
+                    dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="primary", disabled=True),
+                    html.Br(),
+                    html.Br(),
                     dbc.Modal(
                         [
                             dbc.ModalHeader(children=[html.H3("Your token is located below.")]), 
