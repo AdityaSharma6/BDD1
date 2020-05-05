@@ -392,7 +392,6 @@ card4 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.Br(),
-                html.Br(),
                 html.H2("Total Product Cost per Channel", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal6", disabled=True),
                 dbc.Modal(
