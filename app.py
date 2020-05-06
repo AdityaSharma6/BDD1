@@ -613,7 +613,7 @@ card7 = dbc.Card(
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
-                        dbc.ModalBody(dbc.Row(dbc.Col([dcc.Graph(id="graph7"), dcc.Interval(id="update-graph7", interval=5000)]))),
+                        dbc.ModalBody(dbc.Row(dbc.Col([dcc.Graph(id="graph7"), dcc.Interval(id="update-graph7", interval=10000)]))),
                         dbc.ModalFooter(dbc.Button("Close", color = "primary", size="md", id="close-modal7")),
                     ],
                     id = "modal7",
@@ -663,8 +663,10 @@ def update_graph7(input_data):
         parents2.extend(parents_extension)
         values2.extend(values_extension)
     
-    value3 = list(map(lambda x: x * sunburst_random, values2))
-    value_to_show = list(map(lambda x: int(x), value3))
+    #value3 = list(map(lambda x: x * sunburst_random, values2))
+    #value_to_show = list(map(lambda x: int(x), value3))
+
+    value_to_show = algo.introduce_variation(labels2, values2)
 
     data = go.Sunburst(
             labels=labels2,
