@@ -776,7 +776,7 @@ row0 = dbc.Row(children=[dbc.Col(children=cheating_button, align="center")])
 row1 = dbc.CardGroup([card1, card3, card7])
 row2 = dbc.CardGroup([card4, card5, card8])
 row3 = dbc.Row([dbc.Col(id="end", children=complete_button, align="center")])
-app.layout = html.Div([row0, row1, html.Br(), html.Br(), row2, html.Br(), html.Br(), row3])
+app.layout = html.Div([html.Br(), row0, row1, html.Br(), html.Br(), row2, html.Br(), html.Br(), row3])
 
 if __name__ == "__main__":
     app.run_server(debug=True)
