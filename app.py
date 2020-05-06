@@ -166,7 +166,6 @@ card1 = dbc.Card(
             [
                 html.Br(),
                 html.Br(),
-                html.H2("Total Revenue and Product Cost per Country", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal1", disabled=False),
                 dbc.Modal
                 (
@@ -180,14 +179,14 @@ card1 = dbc.Card(
                                             id="graph1-geo1", 
                                             children=[
                                                 dcc.Graph(id='graph1'), 
-                                                dcc.Interval(id="update-graph1", interval=10000)
+                                                dcc.Interval(id="update-graph1", interval=1000)
                                             ]
                                         ),
                                         dbc.Col(
                                             id="graph4-geo2",
                                             children=[
                                                 dcc.Graph(id='graph4'), 
-                                                dcc.Interval(id="update-graph4", interval=10000)
+                                                dcc.Interval(id="update-graph4", interval=1000)
                                             ]
                                         )
                                     ]
@@ -197,8 +196,9 @@ card1 = dbc.Card(
                         dbc.ModalFooter(dbc.Button("Close", color="primary", id="close-modal1", className="ml-auto"))
                     ],
                     id="modal1",
-                    size="xl",
-                    centered = True
+                    size="lg",
+                    centered = True,
+                    scrollable=True
                 )
             ]
         )
@@ -226,7 +226,7 @@ def update_graph1(input_data):
             opacity=1,
             size= data_values,
             sizeref=1000,
-            sizemin=1,
+            sizemin=0.5,
             sizemode="area",
             gradient = dict(
                 type="radial",
@@ -239,14 +239,17 @@ def update_graph1(input_data):
         "geo": {
             "scope": "world", 
             "showframe": True, 
-            "projection": {"type": "orthographic"},  #miller, orthographic, hide
+            "projection": {"type": "equirectangular"},  #miller, orthographic, hide
             "showcountries": False, 
             "showcoastlines": True
         },
         "title": "Sum of Revenue per Country (USD)",
         "hovermode": "closest",
         "margin": {'l': 80, 'r': 0, 'b': 0, 't': 50},
-        "clickmode": "event+select"
+        "clickmode": "event+select",
+        "autosize": False
+        #"width": 1000,
+        #"height": 1000
     }
     return {"data": [data], "layout": layout}
 
@@ -271,20 +274,26 @@ def toggle_modal(n1, n2, is_open):
 
 @app.callback(Output('graph4', 'figure'), [Input('update-graph4', 'n_intervals')])
 def update_graph4(input_data):
+    data_values = Graph4_Data.get("Product Cost Values")
+
+    for i in range(len(data_values)):
+        random_num = random.uniform(0.8, 1.2)
+        data_values[i] = random_num * data_values[i]
+
     data = go.Scattergeo(
         name="Product Cost",
         showlegend=True,
         mode="markers",
         lat= Graph4_Data.get("Latitude"),
         lon= Graph4_Data.get("Longitude"),
-        text= Graph4_Data.get("Product Cost Values"),
+        text= data_values,
         hovertext= Graph4_Data.get("Countries"),
         hovertemplate= "Product Cost: $%{text: .0f}<br>Country: %{hovertext}",
         marker= dict(
             opacity=1,
-            size=Graph4_Data.get("Product Cost Values"),
+            size=data_values,
             sizeref=1000,
-            sizemin=1,
+            sizemin=0.5,
             sizemode="area",
             gradient = dict (
                 type="radial",
@@ -297,14 +306,15 @@ def update_graph4(input_data):
         "geo": {
             "scope": "world", 
             "showframe": True, 
-            "projection": {"type": "orthographic"},  #miller, orthographic, hide
+            "projection": {"type": "equirectangular"},  #miller, orthographic, hide
             "showcountries": False, 
             "showcoastlines": True
         }, 
         "title": "Sum of Product Cost per Country (USD)",
         "hovermode": "closest",
         "margin": {'l': 80, 'r': 0, 'b': 0, 't': 50},
-        "clickmode": "event+select"
+        "clickmode": "event+select",
+        "autosize": False
     }
     return {"data": [data], "layout": layout}
 ################################################################################################################################################################
@@ -314,7 +324,6 @@ card3 = dbc.Card(
         dbc.CardBody(
             [
                 html.Br(),
-                html.H2("Total Revenue per Product Line", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal2"),
                 dbc.Modal(
                     [
@@ -374,7 +383,6 @@ card4 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.Br(),
-                html.H2("Total Product Cost per Channel", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal6"),
                 dbc.Modal(
                     [
@@ -446,7 +454,10 @@ def update_graph6(input_data):
         "bargap": 0.5,
         "xaxis_title": "Product Per Channel",
         "yaxis_title": "Cost in USD",
-        "clickmode": "event+select"
+        "clickmode": "event+select",
+        "text": 10,
+        "texttemplate": '%{text:.2s}', 
+        "textposition": 'outside'
     }
 
     return {"data": [data_dm, data_rt, data_em, data_pc], "layout": layout}
@@ -462,7 +473,6 @@ card5 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.Br(),
-                html.H2("Total Profit per Product Line", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal3"),
                 dbc.Modal(
                     [
@@ -543,7 +553,6 @@ card6 = dbc.Card(
         dbc.CardImg(src="/assets/hBar.png", top=True),
         dbc.CardBody(
             [
-                html.H2("Total Product Cost per Product Line", className="card-title"),
                 dbc.Button("View Graph", color="primary", id="open-modal5"),
                 dbc.Modal(
                     [
@@ -600,12 +609,11 @@ card7 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.Br(),
-                html.H2("Product Line Sentiment", className = "card-title"),
                 dbc.Button("View Graph", color = "primary", size = "md", id="open-modal7"),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
-                        dbc.ModalBody(dbc.Row(dbc.Col([dcc.Graph(id="graph7"), dcc.Interval(id="update-graph7", interval=10000)]))),
+                        dbc.ModalBody(dbc.Row(dbc.Col([dcc.Graph(id="graph7"), dcc.Interval(id="update-graph7", interval=5000)]))),
                         dbc.ModalFooter(dbc.Button("Close", color = "primary", size="md", id="close-modal7")),
                     ],
                     id = "modal7",
@@ -623,6 +631,7 @@ def toggle_modal(n1, n2, is_open):
         return not is_open
     return is_open
 
+
 @app.callback(Output("graph7", "figure"), [Input("update-graph7", "n_intervals")])
 def update_graph7(input_data):
     algo = dictionary_dimension_conversion(Graph8_Data)
@@ -632,6 +641,9 @@ def update_graph7(input_data):
     labels2 = ["Total"]
     parents2 = [""]
     values2 = [total]
+
+    sunburst_random = random.uniform(0.8, 1.2)
+
 
     for key, value in dictionary_1.items():
         labels2.append(key)
@@ -650,11 +662,14 @@ def update_graph7(input_data):
         labels2.extend(label_extension)
         parents2.extend(parents_extension)
         values2.extend(values_extension)
+    
+    value3 = list(map(lambda x: x * sunburst_random, values2))
+    value_to_show = list(map(lambda x: int(x), value3))
 
     data = go.Sunburst(
             labels=labels2,
             parents=parents2,
-            values=values2,
+            values=value_to_show,
             branchvalues="total",
             maxdepth=2
         )
@@ -674,7 +689,6 @@ card8 = dbc.Card(
         dbc.CardBody(
             [
                 html.Br(),
-                html.H2("Consumer Comments per Product Type", className="card-title"),
                 dbc.Button("View Graph", id="open-modal8", color="primary", size="md"),
                 dbc.Modal(
                     [
