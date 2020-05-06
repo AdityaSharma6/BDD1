@@ -149,12 +149,12 @@ def toggle_modal(n1, n2, is_open):
 )
 def tokens(a,b,c,d,e,f,g,h):
     answer = [a,b,c,d,e,f,g,h]
-    summation = [x+1 for x in range(len(answer)) if answer[x] != None]
+    summation = [i+1 for i in range(len(answer)) if answer[i] != None]
     token = 0
-    for x in summation:
-        token = token*10 + x
+    for i in summation:
+        token = token*10 + i
     
-        return str(token)
+    return str(token)
 ################################################################################################################################################################
 
 ################################################################################################################################################################
