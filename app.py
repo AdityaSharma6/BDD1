@@ -65,20 +65,7 @@ cheating_button = html.Div([
         [
             dbc.Col(
                 [
-                    html.Br(),
-                    html.Br(),
-                    dbc.Button("Click to start your analysis", id="start-analysis-button", size="lg", color="success", disabled=False),
-                    html.Br(),
-                    html.Br()
-                ], width={"size": 10}
-            )
-        ], justify="center"
-    ),
-    dbc.Row(
-        [
-            dbc.Col(
-                [
-                    dbc.Button("Click to view decision based on previous experience", id="open-cheating-modal", size="lg", color="primary", disabled=True),
+                    dbc.Button("Click to view decision based on previous experience", id="open-cheating-modal", size="lg", color="primary"),
                     html.Br(),
                     dbc.Modal(
                         [
@@ -108,7 +95,7 @@ cheating_button = html.Div([
     )
 ])
 
-
+'''
 @app.callback(
     [Output("open-cheating-modal", "disabled"),
     Output("open-modal1", "disabled"),
@@ -131,6 +118,7 @@ def activate_buttons(start_click, end_click):
         return [False, False, False, False, False, False, False, False, True]
     else:
         return [True]*9
+'''
 
 @app.callback(Output("completed-analysis-modal", "is_open"), [Input("completed-analysis-modal-button", "n_clicks"), Input("close-completed-analysis-modal", "n_clicks")], [State("completed-analysis-modal", "is_open")])
 def toggle_modal(n1, n2, is_open):
@@ -149,7 +137,7 @@ def toggle_modal(n1, n2, is_open):
     [
         Input("completed-analysis-modal-button", "n_clicks"),
         Input("open-cheating-modal", "n_clicks"),
-        Input("open-modal1", "n_clicks_timestamp"),
+        Input("open-modal1", "n_clicks"),
         Input("open-modal2", "n_clicks"),
         Input("open-modal3", "n_clicks"),
         #Input("open-modal4", "n_clicks"),
@@ -157,21 +145,15 @@ def toggle_modal(n1, n2, is_open):
         Input("open-modal6", "n_clicks"),
         Input("open-modal7", "n_clicks"),
         Input("open-modal8", "n_clicks"),
-        Input("completed-analysis-modal-button", "n_clicks_timestamp"),
-        Input("start-analysis-button", "n_clicks_timestamp"),
     ]
 )
-def tokens(a,b,c,d,e,f,g,h,i,j):
+def tokens(a,b,c,d,e,f,g,h):
     answer = [a,b,c,d,e,f,g,h]
     summation = [x+1 for x in range(len(answer)) if answer[x] != None]
     token = 0
     for x in summation:
         token = token*10 + x
     
-    if i != None and j != None:
-        difference = i - j
-        return str(token) + "a" + str(difference//1000) + "a"
-    else:
         return str(token)
 ################################################################################################################################################################
 
@@ -333,7 +315,7 @@ card3 = dbc.Card(
             [
                 html.Br(),
                 html.H2("Total Revenue per Product Line", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal2", disabled=True),
+                dbc.Button("View Graph", color="primary", id="open-modal2"),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -393,7 +375,7 @@ card4 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.H2("Total Product Cost per Channel", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal6", disabled=True),
+                dbc.Button("View Graph", color="primary", id="open-modal6"),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -481,7 +463,7 @@ card5 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.H2("Total Profit per Product Line", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal3", disabled=True),
+                dbc.Button("View Graph", color="primary", id="open-modal3"),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -562,7 +544,7 @@ card6 = dbc.Card(
         dbc.CardBody(
             [
                 html.H2("Total Product Cost per Product Line", className="card-title"),
-                dbc.Button("View Graph", color="primary", id="open-modal5", disabled=True),
+                dbc.Button("View Graph", color="primary", id="open-modal5"),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -619,7 +601,7 @@ card7 = dbc.Card(
                 html.Br(),
                 html.Br(),
                 html.H2("Product Line Sentiment", className = "card-title"),
-                dbc.Button("View Graph", color = "primary", size = "md", id="open-modal7", disabled=True),
+                dbc.Button("View Graph", color = "primary", size = "md", id="open-modal7"),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -693,7 +675,7 @@ card8 = dbc.Card(
             [
                 html.Br(),
                 html.H2("Consumer Comments per Product Type", className="card-title"),
-                dbc.Button("View Graph", id="open-modal8", color="primary", size="md", disabled=True),
+                dbc.Button("View Graph", id="open-modal8", color="primary", size="md"),
                 dbc.Modal(
                     [
                         dbc.ModalHeader("Header"),
@@ -761,7 +743,7 @@ complete_button = html.Div(
         [
             dbc.Col(
                 [
-                    dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="primary", disabled=True),
+                    dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="primary"),
                     html.Br(),
                     html.Br(),
                     dbc.Modal(
