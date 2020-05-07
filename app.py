@@ -680,9 +680,10 @@ def update_graph7(input_data):
 card8 = dbc.Card(
     [
         html.Br(),
-        dbc.CardImg(src="assets/WordCloud3.png", top=True),
+        dbc.CardImg(src="assets/WordCloud3R.png", top=True),
         dbc.CardBody(
             [
+                html.Br(),
                 html.Br(),
                 dbc.Button("View Graph", id="open-modal8", color="primary", size="md"),
                 dbc.Modal(
