@@ -680,10 +680,9 @@ def update_graph7(input_data):
 card8 = dbc.Card(
     [
         html.Br(),
-        dbc.CardImg(src="assets/WordCloud3R.png", top=True),
-        dbc.CardBody(
+        dbc.CardImg(src="assets/sheet1.png", top=True),
+        dbc.CardBody( 
             [
-                html.Br(),
                 html.Br(),
                 dbc.Button("View Graph", id="open-modal8", color="primary", size="md"),
                 dbc.Modal(
@@ -691,9 +690,9 @@ card8 = dbc.Card(
                         dbc.ModalHeader("Header"),
                         dbc.ModalBody(
                             [
-                                dbc.Row(dbc.Col([html.Img(src=app.get_asset_url("WordCloud3.png"), width="98%")])),
+                                dbc.Row(dbc.Col([html.Img(src=app.get_asset_url("sheet1.png"), width="98%")])),
                                 html.Br(),
-                                dbc.Row(dbc.Col([html.Img(src=app.get_asset_url("WordCloud5.png"), width="98%")])),
+                                dbc.Row(dbc.Col([html.Img(src=app.get_asset_url("sheet2.png"), width="98%")])),
                             ]
                         ),
                         dbc.ModalFooter(dbc.Button("Close", color = "primary", size="md", id="close-modal8")),
