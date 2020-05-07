@@ -774,7 +774,7 @@ complete_button = dbc.Row(
                             centered=True
                         )
                     ],
-                    width={"size": 3, "offset": 9}
+                    width={"size": 3, "offset": 8}
                 ),
             ]
         )
