@@ -379,10 +379,6 @@ card4 = dbc.Card(
             [
                 html.Br(),
                 html.Br(),
-                html.Br(),
-                html.Br(),
-                html.Br(),
-                html.Br(),
                 dbc.Button("View Graph", color="primary", id="open-modal6"),
                 dbc.Modal(
                     [
@@ -606,9 +602,6 @@ card7 = dbc.Card(
             [
                 html.Br(),
                 html.Br(),
-                html.Br(),
-                html.Br(),
-                html.Br(),
                 dbc.Button("View Graph", color = "primary", size = "md", id="open-modal7"),
                 dbc.Modal(
                     [
@@ -678,7 +671,7 @@ def update_graph7(input_data):
     
     layout = {
         "title": "Popular Sentiments of each Product Line",
-        "margin": {"l": 20, "t":30, "b":20, "r":20},
+        "margin": {"l": 20, "t":100, "b":20, "r":20},
         "clickmode": "event+select"
     }
 
@@ -754,38 +747,38 @@ def toggle_modal(n1, n2, is_open):
 
 
 ################################################################################################################################################################
-complete_button = html.Div(
-    dbc.Row(
-        [
-            dbc.Col(
-                [
-                    dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="primary"),
-                    html.Br(),
-                    html.Br(),
-                    dbc.Modal(
-                        [
-                            dbc.ModalHeader(children=[html.H3("Your token is located below.")]), 
-                            dbc.ModalBody(children=
-                                [ 
-                                    html.H4("DO NOT close the tab until you have copied your token and inserted it into the Qualtrics Survey"),
-                                    html.Br(),
-                                    html.Hr(), 
-                                    html.H2(id="token", className="alert-link")
-                                ]
-                            ),
-                            dbc.ModalFooter(
-                                dbc.Button("Close",id="close-completed-analysis-modal",className="ml-auto")
-                            )
-                        ],
-                        id="completed-analysis-modal", 
-                        size="lg", 
-                        centered=True
-                    )
-                ], width={"size": 11}
-            )
-        ], justify="center"
-    )
-)
+complete_button = dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        dbc.Button("Click to conclude analysis and retrieve token", id="completed-analysis-modal-button", size="lg", color="primary"),
+                        html.Br(),
+                        html.Br(),
+                        dbc.Modal(
+                            [
+                                dbc.ModalHeader(children=[html.H3("Your token is located below.")]), 
+                                dbc.ModalBody(children=
+                                    [ 
+                                        html.H4("DO NOT close the tab until you have copied your token and inserted it into the Qualtrics Survey"),
+                                        html.Br(),
+                                        html.Hr(), 
+                                        html.H2(id="token", className="alert-link")
+                                    ]
+                                ),
+                                dbc.ModalFooter(
+                                    dbc.Button("Close",id="close-completed-analysis-modal",className="ml-auto")
+                                )
+                            ],
+                            id="completed-analysis-modal", 
+                            size="lg", 
+                            centered=True
+                        )
+                    ],
+                    width={"size": 3, "offset": 9}
+                ),
+            ]
+        )
+
 row0 = dbc.Row(children=[dbc.Col(children=cheating_button, align="center")])
 #row1 = dbc.Row([dbc.Col(id="card1", children=[card1], width=4), dbc.Col(id="card3", children=[card3], md=4), dbc.Col(id="card7", children=[card7], md=4)])
 #row2 = dbc.Row([dbc.Col(id="card4", children=[card4], md=4), dbc.Col(id="card5", children=[card5], md=4), dbc.Col(id="card8", children=[card8], md=4)]) #dbc.Col(id="card6", children=[card6], md=4)
